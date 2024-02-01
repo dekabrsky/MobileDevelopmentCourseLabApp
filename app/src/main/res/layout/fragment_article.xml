@@ -14,36 +14,33 @@
 
         <TextView
             android:id="@+id/title"
+            style="@style/TextView.H4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/offset_medium"
             android:gravity="center"
-            android:text="@string/article_title"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:text="@string/article_title" />
 
         <TextView
             android:id="@+id/author"
+            style="@style/TextView.Subtitle1.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/offset_small"
             android:gravity="center"
-            android:text="Иван Иванов"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:text="Иван Иванов" />
 
         <TextView
             android:id="@+id/dateTime"
+            style="@style/TextView.Caption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/offset_small"
             android:gravity="center"
-            android:text="29 января 2024, 19:46 МСК"
-            android:textSize="16sp" />
+            android:text="29 января 2024, 19:46 МСК" />
 
         <TextView
+            android:id="@+id/part1"
             style="@style/TextView.Subtitle1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,6 +58,7 @@
             android:src="@drawable/photo" />
 
         <TextView
+            android:id="@+id/part2"
             style="@style/TextView.Subtitle1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

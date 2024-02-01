@@ -72,4 +72,11 @@
         <item name="android:letterSpacing">0.035</item>
         <item name="android:textAllCaps">true</item>
     </style>
+
+    <style name="TextView.Caption" parent="RegularText">
+        <item name="android:textSize">12sp</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="android:textColor">@color/black_60</item>
+    </style>
 </resources>

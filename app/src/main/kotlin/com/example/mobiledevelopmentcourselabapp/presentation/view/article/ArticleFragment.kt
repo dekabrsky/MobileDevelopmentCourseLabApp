@@ -24,8 +24,6 @@ class ArticleFragment : Fragment() {
         _binding = FragmentArticleBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        // Обращайся к элементам View здесь
-
         context?.let {
             Glide
                 .with(it)
