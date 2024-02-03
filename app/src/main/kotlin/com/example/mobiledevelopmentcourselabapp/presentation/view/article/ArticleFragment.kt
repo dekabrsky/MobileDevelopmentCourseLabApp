@@ -12,6 +12,12 @@ import com.example.mobiledevelopmentcourselabapp.databinding.FragmentArticleBind
 
 class ArticleFragment : Fragment() {
 
+    private var score = 0
+        set(value) {
+            field = value
+            _binding?.likeResult?.text = score.toString()
+        }
+
     private var _binding: FragmentArticleBinding? = null
 
     private val binding get() = _binding!!
@@ -22,7 +28,13 @@ class ArticleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentArticleBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        score = savedInstanceState?.getInt(SCORE_TAG) ?: 0
 
         context?.let {
             Glide
@@ -32,11 +44,23 @@ class ArticleFragment : Fragment() {
                 .into(binding.mainPhoto)
         }
 
-        return root
+        binding.likeBtn.setOnClickListener { score++ }
+        binding.dislikeBtn.setOnClickListener { score-- }
+
+        _binding?.likeResult?.text = score.toString()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt(SCORE_TAG, score)
+        super.onSaveInstanceState(outState)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        private const val SCORE_TAG = "SCORE"
     }
 }
