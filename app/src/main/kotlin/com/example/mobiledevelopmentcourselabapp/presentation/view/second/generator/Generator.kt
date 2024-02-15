@@ -26,10 +26,15 @@ object Generator {
                         number = (1..25).random(),
                         age = (18..35).random(),
                         position = Position.values().random(),
-                        photoUrl = PHOTO_LINK + photos.random()
+                        photoUrl = PHOTO_LINK + photos.random(),
+                        gamesCount = (1..50).random(),
+                        assistsCount = (1..25).random(),
+                        goalsCount = (1..25).random(),
+                        redCardsCount = (1..5).random(),
+                        yellowCardCount = (1..5).random()
                     )
                 )
-                if (Random.nextBoolean()) add(AdUiModel)
+                //if (Random.nextBoolean()) add(AdUiModel)
             }
         }
     }

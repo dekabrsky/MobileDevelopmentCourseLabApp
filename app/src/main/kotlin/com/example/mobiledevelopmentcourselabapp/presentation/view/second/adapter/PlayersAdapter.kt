@@ -14,7 +14,9 @@ import com.example.mobiledevelopmentcourselabapp.presentation.view.second.model.
 import com.example.mobiledevelopmentcourselabapp.presentation.view.second.model.ItemUiModel
 import com.example.mobiledevelopmentcourselabapp.presentation.view.second.model.PlayerUiModel
 
-class PlayersAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class PlayersAdapter(
+    private val onPlayerClicked: (PlayerUiModel) -> Unit
+): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var items: List<ItemUiModel> = arrayListOf()
 
@@ -43,10 +45,7 @@ class PlayersAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         if (item is PlayerUiModel && holder is PlayerHolder) {
             holder.bind(item)
 
-            holder.setOnClickListener {
-                item.isExpanded = !item.isExpanded
-                notifyItemChanged(position)
-            }
+            holder.setOnClickListener { onPlayerClicked.invoke(item) }
         }
     }
 
@@ -64,20 +63,10 @@ class PlayersAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             binding.name.text = player.name
             binding.number.text = player.number.toString()
 
-            binding.additionalFields.isVisible = player.isExpanded
-
-            binding.age.text = itemView.context.resources.getString(
-                R.string.age_pattern,
-                player.age,
-                itemView.context.resources.getQuantityText(R.plurals.age, player.age)
-            ) // первый подход
-
-            binding.playerPosition.text = player.formattedPosition
-            binding.team.text = player.formattedTeam // второй подход
-
             Glide
                 .with(itemView)
                 .load(player.photoUrl)
+                .circleCrop()
                 .into(binding.icon)
         }
 
