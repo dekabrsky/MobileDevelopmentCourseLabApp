@@ -11,20 +11,42 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.PluralsRes
 import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.example.mobiledevelopmentcourselabapp.App
 import com.example.mobiledevelopmentcourselabapp.R
 import com.example.mobiledevelopmentcourselabapp.databinding.FragmentCardBinding
+import com.example.mobiledevelopmentcourselabapp.presentation.view.second.adapter.CommentsAdapter
 import com.example.mobiledevelopmentcourselabapp.presentation.view.second.model.PlayerUiModel
+import com.example.mobiledevelopmentcourselabapp.presentation.view.second.presenter.CardPresenter
+import com.example.mobiledevelopmentcourselabapp.utils.orFalse
 import com.example.mobiledevelopmentcourselabapp.utils.orZero
+import com.google.android.material.snackbar.Snackbar
+import moxy.MvpAppCompatFragment
+import moxy.ktx.moxyPresenter
+import javax.inject.Inject
+import javax.inject.Provider
 
-class CardFragment : Fragment() {
+class CardFragment : MvpAppCompatFragment(), CardMvpView {
 
     private var _binding: FragmentCardBinding? = null
 
     private val binding get() = _binding!!
 
     private val player by lazy { arguments?.getSerializable(CARD_PLAYER_KEY) as? PlayerUiModel }
+
+    private val adapter by lazy { CommentsAdapter() }
+
+    @Inject
+    lateinit var presenterProvider: Provider<CardPresenter>
+
+    private val presenter by moxyPresenter { presenterProvider.get() }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        App.appComponent?.inject(this)
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,28 +62,6 @@ class CardFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.card_menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_share -> {
-                sharePlayerText()
-                true
-            }
-            else -> true
-        }
-    }
-
-    // https://developer.android.com/training/sharing/send
-    private fun sharePlayerText() {
-        val sendIntent: Intent = Intent().apply {
-            action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, player.toString())
-            type = "text/plain"
-        }
-
-        val shareIntent = Intent.createChooser(sendIntent, null)
-        startActivity(shareIntent)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -88,6 +88,39 @@ class CardFragment : Fragment() {
             setStat(binding.redCardsCount, player.redCardsCount, R.plurals.reds)
         }
 
+        binding.comments.sendButton.isEnabled = false
+
+        binding.comments.commentTitle.setOnClickListener { presenter.onCommentTitleClicked() }
+
+        binding.comments.commentInput.doOnTextChanged { text, _, _, _ ->
+            presenter.onCommentChanged(text)
+        }
+
+        binding.comments.sendButton.setOnClickListener { presenter.onSendButtonClicked() }
+
+        binding.comments.commentsList.adapter = adapter
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_share -> {
+                sharePlayerText()
+                true
+            }
+            else -> true
+        }
+    }
+
+    // https://developer.android.com/training/sharing/send
+    private fun sharePlayerText() {
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, player.toString())
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 
     private fun setStat(view: TextView, count: Int, @PluralsRes plural: Int) {
@@ -97,6 +130,35 @@ class CardFragment : Fragment() {
                 count,
                 resources.getQuantityString(plural, count)
             )
+    }
+
+    override fun setHiddenGroupVisibility(isVisible: Boolean) {
+        binding.comments.hiddenGroup.isVisible = isVisible
+    }
+
+    override fun setCommentChevronIcon(icon: Int) {
+        binding.comments.chevron.setImageResource(icon)
+    }
+
+    override fun setSendButtonEnabled(isEnabled: Boolean) {
+        binding.comments.sendButton.isEnabled = isEnabled
+    }
+
+    override fun setMessageError(error: String) {
+        binding.comments.commentInputLayout.error = error
+    }
+
+    override fun addComment(comment: String) {
+        adapter.addComment(comment)
+    }
+
+    override fun showSnackbar() {
+        Snackbar.make(
+            requireContext(),
+            binding.root,
+            binding.comments.commentInput.text.toString(),
+            Snackbar.LENGTH_LONG
+        ).show()
     }
 
     override fun onDestroyView() {
