@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.mobiledevelopmentcourselabapp.R
 import com.example.mobiledevelopmentcourselabapp.databinding.FragmentArticleBinding
+import com.example.mobiledevelopmentcourselabapp.utils.orZero
 
 class ArticleFragment : Fragment() {
 
@@ -34,7 +35,7 @@ class ArticleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        score = savedInstanceState?.getInt(SCORE_TAG) ?: 0
+        score = savedInstanceState?.getInt(SCORE_TAG).orZero()
 
         context?.let {
             Glide
