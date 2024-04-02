@@ -1,11 +1,9 @@
 package com.example.mobiledevelopmentcourselabapp.presentation.view.list.generator
 
-import com.example.mobiledevelopmentcourselabapp.presentation.view.second.model.AdUiModel
 import com.example.mobiledevelopmentcourselabapp.presentation.view.second.model.ItemUiModel
 import com.example.mobiledevelopmentcourselabapp.presentation.view.second.model.PlayerUiModel
-import com.example.mobiledevelopmentcourselabapp.presentation.view.second.model.Position
+import com.example.mobiledevelopmentcourselabapp.domain.model.PlayerPosition
 import com.github.javafaker.Faker
-import kotlin.random.Random
 
 object Generator {
     private const val PLAYERS_COUNT = 100
@@ -25,7 +23,7 @@ object Generator {
                         team = faker.team().name(),
                         number = (1..25).random(),
                         age = (18..35).random(),
-                        position = Position.values().random(),
+                        position = PlayerPosition.values().random(),
                         photoUrl = PHOTO_LINK + photos.random(),
                         gamesCount = (1..50).random(),
                         assistsCount = (1..25).random(),

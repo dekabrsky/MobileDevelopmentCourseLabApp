@@ -1,5 +1,6 @@
 package com.example.mobiledevelopmentcourselabapp.presentation.view.common.presenter
 
+import android.os.Bundle
 import com.example.mobiledevelopmentcourselabapp.presentation.view.common.view.BaseMvpView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
@@ -32,6 +33,14 @@ open class BasePresenter<V : BaseMvpView> : MvpPresenter<V>() {
     protected fun <T : Any> Single<T>.doAsync() =
         this.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+
+    protected fun back() {
+        viewState.back()
+    }
+
+    protected fun backWithResult(bundle: Bundle) {
+        viewState.backWithResult(bundle)
+    }
 
     override fun onDestroy() {
         compositeDisposable.dispose()

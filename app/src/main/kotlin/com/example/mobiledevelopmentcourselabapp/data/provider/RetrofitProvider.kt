@@ -1,19 +1,30 @@
 package com.example.mobiledevelopmentcourselabapp.data.provider
 
+import android.content.Context
 import com.example.mobiledevelopmentcourselabapp.data.api.ChuckApi
 import com.example.mobiledevelopmentcourselabapp.data.api.NinjaApi
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
 import javax.inject.Inject
 
-class RetrofitProvider @Inject constructor() {
+class RetrofitProvider @Inject constructor(
+    context: Context
+) {
 
     private val httpClient = OkHttpClient.Builder()
         .addInterceptor(HttpLoggingInterceptor().apply { setLevel(HttpLoggingInterceptor.Level.BODY) })
+        .cache(
+            Cache(
+                File(context.cacheDir, "responses"),
+                10 * 1024 * 1024
+            )
+        )
         .build()
 
     val retrofitChuckApi: ChuckApi = Retrofit.Builder()

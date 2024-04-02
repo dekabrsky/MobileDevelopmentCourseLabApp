@@ -67,6 +67,7 @@ class PlayersAdapter(
                 .with(itemView)
                 .load(player.photoUrl)
                 .circleCrop()
+                .placeholder(R.drawable.account)
                 .into(binding.icon)
         }
 
