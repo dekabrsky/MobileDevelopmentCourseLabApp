@@ -1,10 +1,7 @@
 package com.example.mobiledevelopmentcourselabapp.presentation.view.second.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mobiledevelopmentcourselabapp.R
@@ -65,7 +62,7 @@ class PlayersAdapter(
 
             Glide
                 .with(itemView)
-                .load(player.photoUrl)
+                .load(player.getPhotoUriUri())
                 .circleCrop()
                 .placeholder(R.drawable.account)
                 .into(binding.icon)

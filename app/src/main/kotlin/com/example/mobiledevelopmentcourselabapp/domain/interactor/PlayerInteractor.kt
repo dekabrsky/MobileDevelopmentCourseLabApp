@@ -1,5 +1,6 @@
 package com.example.mobiledevelopmentcourselabapp.domain.interactor
 
+import android.net.Uri
 import com.example.mobiledevelopmentcourselabapp.data.dao.PlayerDao
 import com.example.mobiledevelopmentcourselabapp.data.repository.PlayerRepository
 import com.example.mobiledevelopmentcourselabapp.domain.model.PlayerPosition
@@ -10,7 +11,7 @@ class PlayerInteractor @Inject constructor(
 ) {
     fun getAll() = repository.getAll()
 
-    fun addPlayer(name: String, number: Int, position: PlayerPosition) =
-        repository.addPlayer(name, number, position)
+    fun addPlayer(name: String, number: Int, position: PlayerPosition, uri: Uri?) =
+        repository.addPlayer(name, number, position, uri)
 
 }

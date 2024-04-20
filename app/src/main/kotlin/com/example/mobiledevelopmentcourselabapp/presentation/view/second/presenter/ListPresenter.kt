@@ -3,11 +3,8 @@ package com.example.mobiledevelopmentcourselabapp.presentation.view.second.prese
 import com.example.mobiledevelopmentcourselabapp.data.model.PlayerDbEntity
 import com.example.mobiledevelopmentcourselabapp.domain.interactor.PlayerInteractor
 import com.example.mobiledevelopmentcourselabapp.presentation.view.common.presenter.BasePresenter
-import com.example.mobiledevelopmentcourselabapp.presentation.view.list.generator.Generator
-import com.example.mobiledevelopmentcourselabapp.presentation.view.second.CardMvpView
 import com.example.mobiledevelopmentcourselabapp.presentation.view.second.ListMvpView
 import com.example.mobiledevelopmentcourselabapp.presentation.view.second.model.PlayerUiModel
-import moxy.MvpPresenter
 import javax.inject.Inject
 
 class ListPresenter @Inject constructor(
@@ -32,7 +29,8 @@ class ListPresenter @Inject constructor(
             PlayerUiModel(
                 name = dbPlayer.name,
                 number = dbPlayer.number,
-                position = dbPlayer.position
+                position = dbPlayer.position,
+                photoUri = dbPlayer.avatarUri.toString()
             )
         }
     }
