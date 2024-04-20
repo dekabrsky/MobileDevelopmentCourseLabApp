@@ -24,7 +24,7 @@ object Generator {
                         number = (1..25).random(),
                         age = (18..35).random(),
                         position = PlayerPosition.values().random(),
-                        photoUrl = PHOTO_LINK + photos.random(),
+                        //photoUri = PHOTO_LINK + photos.random(),
                         gamesCount = (1..50).random(),
                         assistsCount = (1..25).random(),
                         goalsCount = (1..25).random(),

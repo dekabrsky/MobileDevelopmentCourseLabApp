@@ -9,10 +9,10 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.PluralsRes
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.mobiledevelopmentcourselabapp.App
 import com.example.mobiledevelopmentcourselabapp.R
@@ -20,13 +20,13 @@ import com.example.mobiledevelopmentcourselabapp.databinding.FragmentCardBinding
 import com.example.mobiledevelopmentcourselabapp.presentation.view.second.adapter.CommentsAdapter
 import com.example.mobiledevelopmentcourselabapp.presentation.view.second.model.PlayerUiModel
 import com.example.mobiledevelopmentcourselabapp.presentation.view.second.presenter.CardPresenter
-import com.example.mobiledevelopmentcourselabapp.utils.orFalse
-import com.example.mobiledevelopmentcourselabapp.utils.orZero
+import com.example.mobiledevelopmentcourselabapp.utils.makeLinks
 import com.google.android.material.snackbar.Snackbar
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
 import javax.inject.Provider
+
 
 class CardFragment : MvpAppCompatFragment(), CardMvpView {
 
@@ -74,10 +74,16 @@ class CardFragment : MvpAppCompatFragment(), CardMvpView {
             setStat(binding.ageValue, player.age, R.plurals.age)
             binding.positionValue.text = player.position.rusName
             binding.teamValue.text = player.team
+            binding.icon.setOnClickListener {
+                startActivity(
+                    Intent(Intent.ACTION_VIEW)
+                        .setDataAndType(player.getPhotoUriUri(), "image/*")
+                        .addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION))
+            }
 
             Glide
                 .with(this)
-                .load(player.photoUrl)
+                .load(player.getPhotoUriUri())
                 .circleCrop()
                 .into(binding.icon)
 
@@ -132,6 +138,11 @@ class CardFragment : MvpAppCompatFragment(), CardMvpView {
             )
     }
 
+    override fun setupTextLinks(text: String, links: Map<String, () -> Unit>) {
+        binding.pdfLink.text = text
+        binding.pdfLink.makeLinks(links)
+    }
+
     override fun setHiddenGroupVisibility(isVisible: Boolean) {
         binding.comments.hiddenGroup.isVisible = isVisible
     }
@@ -159,6 +170,10 @@ class CardFragment : MvpAppCompatFragment(), CardMvpView {
             binding.comments.commentInput.text.toString(),
             Snackbar.LENGTH_LONG
         ).show()
+    }
+
+    override fun openBrowser(intent: Intent) {
+        startActivity(intent)
     }
 
     override fun onDestroyView() {

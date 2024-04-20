@@ -1,5 +1,6 @@
 package com.example.mobiledevelopmentcourselabapp.presentation.view.second
 
+import android.content.Intent
 import androidx.annotation.DrawableRes
 import moxy.MvpView
 import moxy.viewstate.strategy.alias.AddToEnd
@@ -8,6 +9,7 @@ import moxy.viewstate.strategy.alias.OneExecution
 
 @AddToEndSingle
 interface CardMvpView: MvpView {
+    fun setupTextLinks(text: String, links: Map<String, () -> Unit>)
     fun setHiddenGroupVisibility(isVisible: Boolean)
     fun setCommentChevronIcon(@DrawableRes icon: Int)
     fun setSendButtonEnabled(isEnabled: Boolean)
@@ -16,4 +18,6 @@ interface CardMvpView: MvpView {
     fun addComment(comment: String)
     @OneExecution
     fun showSnackbar()
+    @OneExecution
+    fun openBrowser(intent: Intent)
 }
