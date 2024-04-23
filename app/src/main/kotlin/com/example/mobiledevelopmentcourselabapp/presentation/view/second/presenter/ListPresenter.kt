@@ -1,5 +1,6 @@
 package com.example.mobiledevelopmentcourselabapp.presentation.view.second.presenter
 
+import android.media.MediaPlayer
 import com.example.mobiledevelopmentcourselabapp.data.model.PlayerDbEntity
 import com.example.mobiledevelopmentcourselabapp.domain.interactor.PlayerInteractor
 import com.example.mobiledevelopmentcourselabapp.presentation.view.common.presenter.BasePresenter
@@ -8,11 +9,12 @@ import com.example.mobiledevelopmentcourselabapp.presentation.view.second.model.
 import javax.inject.Inject
 
 class ListPresenter @Inject constructor(
-    private val interactor: PlayerInteractor
+    private val interactor: PlayerInteractor,
+    private val mediaPlayer: MediaPlayer
 ): BasePresenter<ListMvpView>() {
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-
+        mediaPlayer.prepareAsync()
         update()
     }
 

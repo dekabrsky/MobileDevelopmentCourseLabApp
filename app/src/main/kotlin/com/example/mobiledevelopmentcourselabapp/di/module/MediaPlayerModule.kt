@@ -1,14 +1,18 @@
 package com.example.mobiledevelopmentcourselabapp.di.module
 
+import android.media.MediaPlayer
 import com.example.mobiledevelopmentcourselabapp.data.database.PlayerDatabase
 import com.example.mobiledevelopmentcourselabapp.data.provider.DatabaseProvider
+import com.example.mobiledevelopmentcourselabapp.di.provider.MediaPlayerProvider
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 @Module
-class DatabaseModule {
+class MediaPlayerModule {
     @Provides
-    fun provideDatabase(databaseProvider: DatabaseProvider): PlayerDatabase {
-        return databaseProvider.get()
+    @Singleton
+    fun provideMediaPlayer(provider: MediaPlayerProvider): MediaPlayer {
+        return provider.get()
     }
 }

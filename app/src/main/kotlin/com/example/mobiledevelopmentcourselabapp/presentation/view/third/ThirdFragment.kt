@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.mobiledevelopmentcourselabapp.databinding.FragmentThirdBinding
+import com.example.mobiledevelopmentcourselabapp.presentation.view.third.adapter.VideoAdapter
 
 class ThirdFragment : Fragment() {
 
@@ -23,6 +24,11 @@ class ThirdFragment : Fragment() {
 
         // Обращайся к элементам View здесь
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.videoPager.adapter = VideoAdapter()
     }
 
     override fun onDestroyView() {
