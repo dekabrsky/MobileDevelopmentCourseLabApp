@@ -88,4 +88,7 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
     implementation "androidx.room:room-rxjava3:$roomVersion"
+
+    // pdf viewer
+    implementation 'io.github.afreakyelf:Pdf-Viewer:2.1.1'
 }
